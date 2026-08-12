@@ -8,8 +8,11 @@ class Solution:
         # z is a 1D NumPy array
         # Formula: 1 / (1 + e^(-z))
         # return np.round(your_answer, 5)
-        dinom = 1 + np.exp(-z)
-        sig = 1 / dinom
+        sig = np.where(
+            z >= 0,
+            (1 / (1 + np.exp(-z))),
+            np.exp(z) / (1 + np.exp(z))
+        )
 
         return np.round(sig, 5)
 
