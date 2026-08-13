@@ -13,7 +13,6 @@ class Solution:
     def get_error(self, model_prediction: NDArray[np.float64], ground_truth: NDArray[np.float64]) -> float:
         # Compute mean squared error between predictions and ground truth
         # Round to 5 decimal places
-        n = len(ground_truth)
-        mse = np.sum(np.square(np.subtract(model_prediction, ground_truth))) / n
+        mse = np.mean(np.square(np.subtract(model_prediction, ground_truth)))
 
-        return np.round(mse, 5)
+        return float(np.round(mse, 5))
