@@ -41,20 +41,20 @@ class Solution:
         # back propagation
         n = len(y_true) if y_true.ndim > 0 else 1
         dz2 = 2 * (z2 - y_true) / n # dL/dz2
-        dw2 = np.outer(dz2, a1) # dL/dw2 -> dz2.reshape(-1, 1) @ a1.reshape(1, -1)
+        dW2 = np.outer(dz2, a1) # dL/dw2 -> dz2.reshape(-1, 1) @ a1.reshape(1, -1)
         db2 = dz2
 
         da1 = dz2 @ W2          # dL/da1 -> (n_out,) @ (n_out, n_hidden) -> (n_hidden,)
-        da1 = da1.flatten()
+        # da1 = da1.flatten()
         dz1 = da1 * _relu_deriv(z1)
-        dw1 = np.outer(dz1, x) # dL/dw1
+        dW1 = np.outer(dz1, x) # dL/dw1
         db1 = dz1
 
         return {
             'loss': np.round(loss, 4),
-            'dW1': np.round(dw1, 4),
+            'dW1': np.round(dW1, 4),
             'db1': np.round(db1, 4),
-            'dW2': np.round(dw2, 4),
+            'dW2': np.round(dW2, 4),
             'db2': np.round(db2, 4)
         }
 
