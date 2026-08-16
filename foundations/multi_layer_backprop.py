@@ -45,6 +45,7 @@ class Solution:
         db2 = dz2
 
         da1 = dz2 @ W2          # dL/da1 -> (n_out,) @ (n_out, n_hidden) -> (n_hidden,)
+        da1 = da1.flatten()
         dz1 = da1 * _relu_deriv(z1)
         dw1 = np.outer(dz1, x) # dL/dw1
         db1 = dz1
