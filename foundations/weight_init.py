@@ -11,7 +11,7 @@ class Solution:
         # Use torch.manual_seed(0) for reproducibility
         # Round to 4 decimal places and return as nested list
         torch.manual_seed(0)
-        std = math.sqrt(2.0 / (fan_in + fan_out))
+        std = math.sqrt(2 / (fan_in + fan_out))
         weights = torch.randn(fan_out, fan_in) * std
         return torch.round(weights, decimals=4).tolist()
 
@@ -20,7 +20,7 @@ class Solution:
         # Use torch.manual_seed(0) for reproducibility
         # Round to 4 decimal places and return as nested list
         torch.manual_seed(0)
-        std = math.sqrt(2.0 / fan_in)
+        std = math.sqrt(2 / fan_in)
         weights = torch.randn(fan_out, fan_in) * std
         return torch.round(weights, decimals=4).tolist()
 
@@ -29,29 +29,26 @@ class Solution:
         # Use torch.manual_seed(0) once at the start.
         # Return the std of activations after each layer, rounded to 2 decimals.
         torch.manual_seed(0)
-
-        # init weights
         dims = [input_dim] + [hidden_dim] * num_layers
         weights = []
+
         for i in range(num_layers):
             if init_type == 'xavier':
-                std = math.sqrt(2 / (dims[i] + dims[i + 1]))
+                std = math.sqrt(2 / (dims[i] + dims[i + 1]))     
             elif init_type == 'kaiming':
                 std = math.sqrt(2 / dims[i])
             else:
                 std = 1
-
-            w = torch.randn(dims[i + 1], dims[i]) * std
+            w = torch.randn(dims[i], dims[i + 1]) * std
             weights.append(w)
 
-        # forward pass --> get stds
         x = torch.randn(1, input_dim)
         stds = []
-        for i in range(len(weights)):
-            x = x @ weights[i].T
+        for w in weights:
+            x = x @ w.T
             x = torch.relu(x)
             stds.append(round(x.std().item(), 2))
-        
         return stds
+
 
 
