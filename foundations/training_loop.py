@@ -28,6 +28,7 @@ class Solution:
             dw = (2.0 / n) * (X.T @ error)
             db = (2.0 / n) * np.sum(error)
 
+            # update
             w = w - lr * dw
             b = b - lr * db
 
