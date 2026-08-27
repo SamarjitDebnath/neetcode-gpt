@@ -7,21 +7,19 @@ class Solution(nn.Module):
         super().__init__()
         torch.manual_seed(0)
         # Architecture: Linear(784, 512) -> ReLU -> Dropout(0.2) -> Linear(512, 10) -> Sigmoid
-        self.first_layer = nn.Linear(784, 512)
-        self.relu = nn.ReLU()
-        self.dropout = nn.Dropout(p=0.2)
-        self.projection = nn.Linear(512, 10)
-        self.sigmoid = nn.Sigmoid()
+        self.network = nn.Sequential(
+            nn.Linear(784, 512),
+            nn.ReLU(),
+            nn.Dropout(p=0.2),
+            nn.Linear(512, 10),
+            nn.Sigmoid()
+        )
 
     def forward(self, images: TensorType[float]) -> TensorType[float]:
         torch.manual_seed(0)
         # images shape: (batch_size, 784)
         # Return the model's prediction to 4 decimal places
-        x = self.first_layer(images)
-        x = self.relu(x)
-        x = self.dropout(x)
-        x = self.projection(x)
-        x = self.sigmoid(x)
+        x = self.network(images)
 
         return torch.round(x, decimals=4)
 
