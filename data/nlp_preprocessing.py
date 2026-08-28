@@ -9,15 +9,11 @@ class Solution:
         # 2. Encode each sentence by replacing words with their IDs
         # 3. Combine positive + negative into one list of tensors
         # 4. Pad shorter sequences with 0s using nn.utils.rnn.pad_sequence(tensors, batch_first=True)
-        
-        # corpus creation
         corpus = positive + negative
 
-        # vocab + id gen
         vocabulary = sorted({word for sentence in corpus for word in sentence.split()})
-        word_to_id = {word: idx + 1 for idx, word in enumerate(vocabulary)}
+        word_to_id = {word: _id + 1 for _id, word in enumerate(vocabulary)}
 
-        # encode ids to tensor
         encode = [torch.tensor([word_to_id[w] for w in sentence.split()]) for sentence in corpus]
 
         return nn.utils.rnn.pad_sequence(encode, padding_value=0, batch_first=True)
